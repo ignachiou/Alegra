@@ -19,7 +19,7 @@ class IndexController extends Zend_Controller_Action
     {
         // action body
     	$this->view->form = new Application_Form_Alegraform();
-    	//
+    	//'create esta referida en el archivo .ini
     	$this->view->form->setAction($this->view->
            url(array('controller'=>'index','action'=>'createform'),'create'));
     }
@@ -45,11 +45,32 @@ class IndexController extends Zend_Controller_Action
     public function editAction()
     {
         // action body
+        $id = $this->getRequest()->getParam('id');
+        $tab_contacto = new Application_Model_DbTable_Alexa();
+        $contacto = $tab_contacto->find($id)->current();
+        $this->view->form = new Application_Form_Alegraform();
+        $this->view->form->populate($contacto->toArray());
+        $this->view->form->setAction($this->view->
+          url(array('controller'=>'index','action'=>'update','id'=>$id,'nombre'=>$contacto['nombre'])));
     }
 
     public function updateAction()
     {
         // action body
+        $id = $this->getRequest()->getParam('id');
+        $nombre = $this->getRequest()->getParam('nombre_contacto');
+        $tab_contacto = new Application_Model_DbTable_Alexa();
+        $contacto = $tab_contacto->find($id)->current();
+        $request = $this->getRequest();
+        if ($request->isPost())
+        {
+        	$data = array('id'=>$id, 'nombre'=>$nombre);
+        	$contacto->setFromArray($data);
+        	$contacto->save();
+        	
+        	return $this->_helper->redirector('index'); 
+        }
+        
     }
 
     public function deleteAction()
