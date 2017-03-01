@@ -60,7 +60,7 @@ class IndexController extends Zend_Controller_Action
         $contacto = $tab_contacto->find($id)->current();
         $contacto->delete();
         
-        return $this->_helper_redirector('index');
+        return $this->_helper->redirector('index');
         
     }
 
