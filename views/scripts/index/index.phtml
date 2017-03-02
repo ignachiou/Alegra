@@ -2,10 +2,35 @@
 <p>
 <?php foreach ( $this->contactos as $contacto ): ?>
 <?php echo $contacto['nombre'].""; ?>
-<a href="<?php echo $this->url(array('controller'=>'index','action'=>'edit','id'=>$contacto['id'])) ?>"> Editar</a>
-<a href="<?php echo $this->url(array('controller'=>'index','action'=>'delete','id'=>$contacto['id']))?>"> Eliminar</a>
-<br/>
+
 <?php endforeach;?> 
 </p>
-
+<?php 
+$phpNative = $this->response;
+?>
+</br>
 <a href="<?php echo $this->url(array('controller'=>'index','action'=>'showform'),'show') ?>"> Agrega nuevo contacto</a>
+</br>
+<table>
+	<tr>
+		<td><Strong>ID</Strong></td>
+		<td><strong>Nombre</strong></td>
+		<td><strong>Identificacion</strong></td>
+		<td><strong>Telefono 1</strong></td>
+		<td><strong>Observaciones</strong></td>
+		<td><strong>Acciones</strong></td>
+	</tr>
+	<?php foreach ($phpNative as $ph):?>
+	<tr>
+		<td><?=  $ph['id'];?></td>
+		<td><?=  $ph['name'];?></td>
+		<td><?=  $ph['identification'];?></td>
+		<td><?=  $ph['phonePrimary'];?></td>
+		<td><?=  $ph['observations'];?></td>
+		<td><a href="<?php echo $this->url(array('controller'=>'index','action'=>'edit','id'=>$ph['id'])) ?>"> Editar</a></td>
+		<td><a href="<?php echo $this->url(array('controller'=>'index','action'=>'delete','id'=>$ph['id']))?>"> Eliminar</a></td>
+		<br/>
+	</tr>
+	<?php endforeach; ?>
+	
+</table>	

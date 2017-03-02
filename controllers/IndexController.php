@@ -11,8 +11,24 @@ class IndexController extends Zend_Controller_Action
     public function indexAction()
     {
         // action body
-    	$tab_animal= new Application_Model_DbTable_Alexa();
-    	$this->view->contactos = $tab_animal->fetchAll();
+        //$client = new Zend_Rest_Client('https://app.alegra.com/api/v1/contacts/');
+        
+    	$tab_contacto= new Application_Model_DbTable_Alexa();
+    	
+    	$client = new Zend_Http_Client('https://app.alegra.com/api/v1/contacts/');
+    	$client->setAuth('salvador.ignacio.salvatierra@gmail.com', 'c057687f5260aac9c56c');
+    	
+    	//se solicita un request con los parametros que se estan pasando en client
+    	$a = $client->request('GET');    	 
+    	$b = strstr($a, '[');
+    	$json_alegra = substr($b,0, -5);
+    	
+    	//Se pasa pasa de json a array
+    	$phpNative = Zend_Json::decode($json_alegra); //$phpNative = json_decode($json_alegra, true);
+    	
+    	//se envia a la vista
+    	$this->view->response = $phpNative;
+    	$this->view->contactos = $tab_contacto->fetchAll();
     }
 
     public function showformAction()
@@ -64,6 +80,7 @@ class IndexController extends Zend_Controller_Action
         $request = $this->getRequest();
         if ($request->isPost())
         {
+        	//se guarda en data el array que modificara la info en la BD
         	$data = array('id'=>$id, 'nombre'=>$nombre);
         	$contacto->setFromArray($data);
         	$contacto->save();
@@ -76,10 +93,17 @@ class IndexController extends Zend_Controller_Action
     public function deleteAction()
     {
         // action body
-        $id = $this->getRequest()->getParam('id');
+        
+    	$id = $this->getRequest()->getParam('id');
+    	$client = new Zend_Http_Client('https://app.alegra.com/api/v1/contacts/'.$id);
+    	$client->setAuth('salvador.ignacio.salvatierra@gmail.com', 'c057687f5260aac9c56c');
+    	$client->request('DELETE');
+    	
+    	
+       /* $id = $this->getRequest()->getParam('id');
         $tab_contacto = new Application_Model_DbTable_Alexa();
         $contacto = $tab_contacto->find($id)->current();
-        $contacto->delete();
+        $contacto->delete();*/
         
         return $this->_helper->redirector('index');
         
