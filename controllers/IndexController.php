@@ -10,25 +10,20 @@ class IndexController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        // action body
-        //$client = new Zend_Rest_Client('https://app.alegra.com/api/v1/contacts/');
-        
-    	$tab_contacto= new Application_Model_DbTable_Alexa();
-    	
+        // action body//$client = new Zend_Rest_Client('https://app.alegra.com/api/v1/contacts/');
+            	
     	$client = new Zend_Http_Client('https://app.alegra.com/api/v1/contacts/');
     	$client->setAuth('salvador.ignacio.salvatierra@gmail.com', 'c057687f5260aac9c56c');
     	
     	//se solicita un request con los parametros que se estan pasando en client
     	$a = $client->request('GET');    	 
     	$b = strstr($a, '[');
-    	$json_alegra = substr($b,0, -5);
-    	
+    	$json_alegra = substr($b,0, -5);    	
     	//Se pasa pasa de json a array
     	$phpNative = Zend_Json::decode($json_alegra); //$phpNative = json_decode($json_alegra, true);
     	
     	//se envia a la vista
     	$this->view->response = $phpNative;
-    	$this->view->contactos = $tab_contacto->fetchAll();
     }
 
     public function showformAction()
@@ -43,16 +38,21 @@ class IndexController extends Zend_Controller_Action
     public function createformAction()
     {
     	// action body
+    	
     	$request=$this->getRequest();
     	if ($request->isPost())
     	{
     		$form_contac = new Application_Form_Alegraform();
     		if ($form_contac->isValid( $request->getPost()) )
     		{
-    			$data = array('nombre'=>$form_contac->getValue('nombre_contacto') );
-    			$tab_contacto= new Application_Model_DbTable_Alexa();
-    			$tab_contacto->insert($data);
-    			$form_contac->reset();
+    			//obtiene el valor "name" pasada por parametro y se introduce en un array
+    			$data = array('name'=>$form_contac->getValue('name') );
+    			$json_alegra = Zend_Json::encode($data);
+    			$client = new Zend_Http_Client('https://app.alegra.com/api/v1/contacts/'); 
+    			$client->setAuth('salvador.ignacio.salvatierra@gmail.com', 'c057687f5260aac9c56c');
+    			//Se le dice al header que es una app/json y se le pasa el parametro
+    			$client->setRawData($json_alegra, 'application/json');
+    			$client->request('POST');    			
     		}
     	}
     	$this->_helper->redirector('index');
@@ -60,30 +60,48 @@ class IndexController extends Zend_Controller_Action
 
     public function editAction()
     {
+    	
         // action body
-        $id = $this->getRequest()->getParam('id');
-        $tab_contacto = new Application_Model_DbTable_Alexa();
-        $contacto = $tab_contacto->find($id)->current();
+        $id = $this->getRequest()->getParam('id');        
+        $client = new Zend_Http_Client('https://app.alegra.com/api/v1/contacts/'.$id);
+        $client->setAuth('salvador.ignacio.salvatierra@gmail.com', 'c057687f5260aac9c56c');
+         
+        //se solicita un request con los parametros que se estan pasando en client
+        $a = $client->request('GET');
+        $b = strstr($a, '{');
+        $json_alegra = substr($b,0, -5);
+         
+        //Se pasa de json a array
+        $phpNative = Zend_Json::decode($json_alegra); //$phpNative = json_decode($json_alegra, true);
+        
+        //$this->view->response = $a;
+                
         $this->view->form = new Application_Form_Alegraform();
-        $this->view->form->populate($contacto->toArray());
+        //usamos populate para llenar el formulario con el array $phpNative
+        //las variables del array deben cooncordar con las del form
+        $this->view->form->populate($phpNative);
         $this->view->form->setAction($this->view->
-          url(array('controller'=>'index','action'=>'update','id'=>$id,'nombre'=>$contacto['nombre'])));
+          url(array('controller'=>'index','action'=>'update','id'=>$id)));
+    
     }
 
     public function updateAction()
     {
         // action body
+        //los parametros que envia el formulario los almaceno en vars
         $id = $this->getRequest()->getParam('id');
-        $nombre = $this->getRequest()->getParam('nombre_contacto');
-        $tab_contacto = new Application_Model_DbTable_Alexa();
-        $contacto = $tab_contacto->find($id)->current();
+        $nombre = $this->getRequest()->getParam('name'); 
         $request = $this->getRequest();
+        
         if ($request->isPost())
         {
         	//se guarda en data el array que modificara la info en la BD
-        	$data = array('id'=>$id, 'nombre'=>$nombre);
-        	$contacto->setFromArray($data);
-        	$contacto->save();
+        	$data = array('id'=>$id, 'name'=>$nombre);
+        	$json_alegra = Zend_Json::encode($data);
+        	$client = new Zend_Http_Client('https://app.alegra.com/api/v1/contacts/'.$id);
+        	$client->setAuth('salvador.ignacio.salvatierra@gmail.com', 'c057687f5260aac9c56c');
+        	$client->setRawData($json_alegra, 'application/json');
+        	$client->request('PUT');
         	
         	return $this->_helper->redirector('index'); 
         }
@@ -97,14 +115,8 @@ class IndexController extends Zend_Controller_Action
     	$id = $this->getRequest()->getParam('id');
     	$client = new Zend_Http_Client('https://app.alegra.com/api/v1/contacts/'.$id);
     	$client->setAuth('salvador.ignacio.salvatierra@gmail.com', 'c057687f5260aac9c56c');
-    	$client->request('DELETE');
-    	
-    	
-       /* $id = $this->getRequest()->getParam('id');
-        $tab_contacto = new Application_Model_DbTable_Alexa();
-        $contacto = $tab_contacto->find($id)->current();
-        $contacto->delete();*/
-        
+    	$client->request('DELETE'); 
+    	       
         return $this->_helper->redirector('index');
         
     }

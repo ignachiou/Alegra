@@ -1,13 +1,6 @@
 <h3>Contactos:</h3>
-<p>
-<?php foreach ( $this->contactos as $contacto ): ?>
-<?php echo $contacto['nombre'].""; ?>
 
-<?php endforeach;?> 
-</p>
-<?php 
-$phpNative = $this->response;
-?>
+<?php $phpNative = $this->response;?>
 </br>
 <a href="<?php echo $this->url(array('controller'=>'index','action'=>'showform'),'show') ?>"> Agrega nuevo contacto</a>
 </br>
