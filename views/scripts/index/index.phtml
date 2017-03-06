@@ -1,29 +1,86 @@
-<h3>Contactos:</h3>
+
+	<div class="agregar" >
+		<div class="iconos" align="left" >
+			<h2><span class="glyphicon glyphicon-inbox"></span>Contactos  <a class="btn btn-primary btn-lg" href="<?php echo $this->url(array('controller'=>'index','action'=>'showform'),'show') ?>" role="button">Nuevo Contacto +</a>
+		</div>
+	</div>
+
+	<script>
+		/*Ext.define('Contactos',{
+			extend: 'Ext.data.Model',
+			fields: ['id','name']
+			});	*/
+
+		var store = Ext.create('Ext.data.Store', {
+			//model: 'Contactos',
+			//pageSize: 25,			
+			autoLoad: true,
+			proxy: {
+				type: 'ajax',
+				url:  'https://app.alegra.com/api/v1/contacts/',
+				method: 'GET',
+				reader: {
+					type: 'json',
+					rootProperty: 'data',
+					id: 'id'
+					},
+				headers: {
+					Accept : 'application/json',
+					Authorization: 'Basic c2FsdmFkb3IuaWduYWNpby5zYWx2YXRpZXJyYUBnbWFpbC5jb206YzA1NzY4N2Y1MjYwYWFjOWM1NmM='
+						}				
+				}
+			});
+
+		/*var categoriesColumnMode = new Ext.grid.ColumnModel(
+			    [{
+			        text: '#',
+			        dataIndex: 'id',
+			        width: 50,
+			        hidden: false
+			    },{
+			        text: 'Name',
+			        dataIndex: 'name',
+			        width: 150
+			    }]
+			);*/
+
+			/*var pagingToolbar = Ext.create('Ext.toolbar.Paging', {
+				store: store,
+				displayInfo: true,
+				displayMsg: 'Displaying persons {0} - {1} of {2}',
+				emptyMsg: "No persons to display"
+			});*/
+
+		
+
+		Ext.create('Ext.grid.Panel',{
+			title: 'Contactos',
+		    id: 'cat_categoriesGrid',
+		    store: store,
+		   // bbar: pagingToolbar,
+		    columns: [
+		              { text: '#', dataIndex: 'id', width: 35 },
+		              { text: 'Nombre', dataIndex: 'name', width: 210},
+		              {text: 'Identificacion', dataIndex: 'identification',width: 210},
+		              {text: 'Telefono 1', dataIndex: 'phonePrimary',width: 210},
+		              {text: 'Observaciones', dataIndex:'observations',width: 210},
+		              {text: 'Acciones',width: 210}
+		          ],
+			width: 1100,
+			style: 'margin:0 auto;margin-top:15px;',
+		    enableColLock:false,
+		    //selModel: new Ext.grid.RowSelectionModel({singleSelect:false}),
+		    renderTo: Ext.getBody()
+		});
+
+		
+		
+	//alert(store);
+	</script>
+	
+	
+	
+
+
 
 <?php $phpNative = $this->response;?>
-</br>
-<a href="<?php echo $this->url(array('controller'=>'index','action'=>'showform'),'show') ?>"> Agrega nuevo contacto</a>
-</br>
-<table>
-	<tr>
-		<td><Strong>ID</Strong></td>
-		<td><strong>Nombre</strong></td>
-		<td><strong>Identificacion</strong></td>
-		<td><strong>Telefono 1</strong></td>
-		<td><strong>Observaciones</strong></td>
-		<td><strong>Acciones</strong></td>
-	</tr>
-	<?php foreach ($phpNative as $ph):?>
-	<tr>
-		<td><?=  $ph['id'];?></td>
-		<td><?=  $ph['name'];?></td>
-		<td><?=  $ph['identification'];?></td>
-		<td><?=  $ph['phonePrimary'];?></td>
-		<td><?=  $ph['observations'];?></td>
-		<td><a href="<?php echo $this->url(array('controller'=>'index','action'=>'edit','id'=>$ph['id'])) ?>"> Editar</a></td>
-		<td><a href="<?php echo $this->url(array('controller'=>'index','action'=>'delete','id'=>$ph['id']))?>"> Eliminar</a></td>
-		<br/>
-	</tr>
-	<?php endforeach; ?>
-	
-</table>	

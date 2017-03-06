@@ -46,13 +46,46 @@ class IndexController extends Zend_Controller_Action
     		if ($form_contac->isValid( $request->getPost()) )
     		{
     			//obtiene el valor "name" pasada por parametro y se introduce en un array
-    			$data = array('name'=>$form_contac->getValue('name') );
+    			$internalContact[] = array(
+    					'name'=>$a_contacto = $form_contac->getValue('a_name'),
+    					'lastName'=>$a_lastName = $form_contac->getValue('a_lastName'),
+    					'email'=>$a_lastName = $form_contac->getValue('a_email'),
+    					'phone'=>$a_lastName = $form_contac->getValue('a_phone'),
+    					'mobile'=>$a_lastName = $form_contac->getValue('a_mobile'),
+    					'sendNotifications'=>$a_sendNotifications = $form_contac->getValue('a_sendNotifications'),
+    			);
+    			$data = array(
+    					'name'=>$form_contac->getValue('name'), 
+    					'identification'=>$form_contac->getValue('identification'),
+    					'email'=>$form_contac->getValue('email'),
+    					'phonePrimary'=>$form_contac->getValue('phonePrimary'),
+    					'phoneSecondary'=>$form_contac->getValue('phoneSecondary'),
+    					'fax'=>$form_contac->getValue('fax'),
+    					'mobile'=>$form_contac->getValue('mobile'),
+    					'observations'=>$form_contac->getValue('observations'),    					
+    					'type'=>$form_contac->getValue('type'),
+    					'address'=>array(
+    							'address'=>$form_contac->getValue('address'),
+    							'city'=>$form_contac->getValue('city'),
+    					),
+    					//'seller'=>$form_contac->getValue('seller'),
+    					'term'=>$form_contac->getValue('term'),
+    					'priceList'=>$form_contac->getValue('priceList'),
+    					
+    					
+    					
+    					'internalContacts'=>$internalContact,
+    							
+    					  							
+    					   		
+    			);
     			$json_alegra = Zend_Json::encode($data);
     			$client = new Zend_Http_Client('https://app.alegra.com/api/v1/contacts/'); 
     			$client->setAuth('salvador.ignacio.salvatierra@gmail.com', 'c057687f5260aac9c56c');
     			//Se le dice al header que es una app/json y se le pasa el parametro
     			$client->setRawData($json_alegra, 'application/json');
-    			$client->request('POST');    			
+    			$client->request('POST'); 
+    			//$this->view->response = $json_alegra; 			
     		}
     	}
     	$this->_helper->redirector('index');

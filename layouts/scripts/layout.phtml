@@ -2,9 +2,56 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <link rel='stylesheet' type='text/css' href=<?php echo $this->baseUrl('css/mycss.css'); ?> />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/extjs/6.0.0/classic/theme-classic/resources/theme-classic-all.css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/extjs/6.0.0/ext-all.js"></script>
+  
 <title><?php echo $this->title;?></title>
+
 </head>
 <body>
-<?php echo $this->layout()->content; ?>
+	<header>
+		<nav class="navbar navbar-default">
+  			<div class="container-fluid">
+    			<div class="navbar-header">
+     				 <a class="navbar-brand" href="#">
+        				<img alt="Brand" src="<?php echo $this->baseUrl('image/alegra.jpg');?>" width="30" height="30">
+      				</a>
+    			</div>
+    			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			      <ul class="nav navbar-nav">
+			        <li class="active"><a href="#">Inicio <span class="sr-only">(current)</span></a></li>
+			        <li><a href="#">Ingresos</a></li>
+			        <li><a href="#">Gastos</a></li>
+			        <li class="dropdown">
+			          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Contactos <span class="caret"></span></a>
+			          <ul class="dropdown-menu">
+			            <li><a href="href=<?php echo $this->baseUrl('/index'); ?>">Lista de contactos</a></li>
+			            <li role="separator" class="divider"></li>
+			            <li><a href="<?php echo $this->url(array('controller'=>'index','action'=>'showform'),'show') ?>">Agregar nuevo contacto</a></li>
+			            <li role="separator" class="divider"></li>
+			            <li><a href="#">Extra</a></li>
+			          </ul>
+			        </li>
+			        <li><a href="#">Inventario</a></li>
+			        <li><a href="#">Bancos</a></li>
+			      </ul> 
+    			</div>    			
+  			</div>
+		</nav>	
+	</header>
+	
+	
+
+	
+<?php  echo $this->layout()->content; ?>
+	
+	<footer>
+	
+		<p>&copy; <?= date('Y') ?> Alegra Test.</p>
+	</footer>
+	
 </body>
 </html>
