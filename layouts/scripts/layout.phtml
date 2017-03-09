@@ -12,14 +12,13 @@
 
 </head>
 <body>
+
 	<header>
+		<div class="logo">
+			<h1><img alt="Brand" src="<?php echo $this->baseUrl('image/alegra.jpg');?>" width="60" height="60">Alegra</h1>
+		</div>
 		<nav class="navbar navbar-default">
   			<div class="container-fluid">
-    			<div class="navbar-header">
-     				 <a class="navbar-brand" href="#">
-        				<img alt="Brand" src="<?php echo $this->baseUrl('image/alegra.jpg');?>" width="30" height="30">
-      				</a>
-    			</div>
     			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			      <ul class="nav navbar-nav">
 			        <li class="active"><a href="#">Inicio <span class="sr-only">(current)</span></a></li>
@@ -44,14 +43,42 @@
 	</header>
 	
 	
-
 	<div class="content">
 	<?php  echo $this->layout()->content; ?>
 	</div>
+	
 	<footer>
-	
-		<p>&copy; <?= date('Y') ?> Alegra Test.</p>
+		<div class="copy">	
+			<div class='ayuda'>
+					<h4>Ayudas paso a paso</h4>
+					<lu class="enlace">
+						<li>Como crear una factura de venta</li>
+						<li>Como crear una factura de proveedor</li>
+						<li>Como importar contactos</li>
+						<li>Como registra una cuenta de banco</li>
+						<li>Como registrar un pago a una factura de venta</li>
+						<li>Como crear una nota credito</li>
+					</lu>
+			</div>
+			<div class='support'>
+				<h4>Soporte</h4>
+				<lu class="enlace2">
+					<li>Conactanos</li>
+					<li>Centro de ayuda</li>
+					<li>Manual de primeros pasos de alegra</li>
+					<li>Plan de referidos</li>
+					<li>Comparte tu historia</li>
+				</lu>
+			</div>
+			<div class='masAyuda'>
+				<h4>Contactos</h4>
+				<lu class="enlace3">
+					<li>Como crear un cliente?</li>
+					<li>Como importar contactos?</li>
+				</lu>
+			</div>
+		</div>
 	</footer>
-	
+
 </body>
 </html>

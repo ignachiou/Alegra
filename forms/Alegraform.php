@@ -65,7 +65,8 @@ class Application_Form_Alegraform extends Zend_Form
     			'checkedValue' => true,
                 'uncheckedValue' => false
     	)); 	
-    	 
+    	
+    
     	$this->addElement($t_contacto);
     	$this->addElement($t_identification);
     	$this->addElement($t_address);
@@ -87,21 +88,6 @@ class Application_Form_Alegraform extends Zend_Form
     	$this->addElement($a_phone);
     	$this->addElement($a_mobile);
     	$this->addElement($a_sendNotifications);
-    	
-    	/*$address[] = new Zend_Form_Element_Text('address',array(
-    			new Zend_Form_Element_Text('a_name',array('required'=>true,'label'=>'Nombre:')),
-    			 new Zend_Form_Element_Text('a_lastName',array('label'=>'Apellido:')),
-    			new Zend_Form_Element_Text('a_email',array('label'=>'Correo electronico:')),
-    			new Zend_Form_Element_Text('a_phone',array('label'=>'Telefono:')),
-    			new Zend_Form_Element_Text('a_mobile',array('label'=>'Celular:')),
-    			 new Zend_Form_Element_Checkbox('a_sendNotifications',array(
-    					'label'=>'Enviar Notificacion:',
-    					'checkedValue' => true,
-    					'uncheckedValue' => false
-    			))
-    			
-    			
-    	));*/
     	
     	$submit_contacto = new Zend_Form_Element_Submit('contacto_submit',array('label'=>'Guarda contacto'));
     	$this->addElement($submit_contacto);

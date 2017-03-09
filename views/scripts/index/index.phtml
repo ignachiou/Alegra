@@ -1,19 +1,20 @@
 
 	<div class="agregar" >
-		<div class="iconos" align="left" >
+		<div class="iconos"  >
 			<h2><span class="glyphicon glyphicon-inbox"></span>Contactos  <a class="btn btn-primary btn-lg" href="<?php echo $this->url(array('controller'=>'index','action'=>'showform'),'show') ?>" role="button">Nuevo Contacto +</a>
 		</div>
-	</div>
+	</div>	
+	
 
 	<script>
-		/*Ext.define('Contactos',{
+		Ext.define('Contactos',{
 			extend: 'Ext.data.Model',
-			fields: ['id','name']
-			});	*/
+			fields: ['id','name','identification','phonePrimary','observations']
+			});	
 
 		var store = Ext.create('Ext.data.Store', {
-			//model: 'Contactos',
-			//pageSize: 25,			
+			model: 'Contactos',
+			pageSize: 25,
 			autoLoad: true,
 			proxy: {
 				type: 'ajax',
@@ -22,7 +23,8 @@
 				reader: {
 					type: 'json',
 					rootProperty: 'data',
-					id: 'id'
+					id: 'id',
+					totalProperty: 'total',
 					},
 				headers: {
 					Accept : 'application/json',
@@ -30,42 +32,22 @@
 						}				
 				}
 			});
-
-		/*var categoriesColumnMode = new Ext.grid.ColumnModel(
-			    [{
-			        text: '#',
-			        dataIndex: 'id',
-			        width: 50,
-			        hidden: false
-			    },{
-			        text: 'Name',
-			        dataIndex: 'name',
-			        width: 150
-			    }]
-			);*/
-
-			/*var pagingToolbar = Ext.create('Ext.toolbar.Paging', {
-				store: store,
-				displayInfo: true,
-				displayMsg: 'Displaying persons {0} - {1} of {2}',
-				emptyMsg: "No persons to display"
-			});*/
-
 		
+	
 
 		Ext.create('Ext.grid.Panel',{
-			title: 'Contactos',
+			//title: '<center>Contactos</center>',
 		    id: 'cat_categoriesGrid',
 		    store: store,
-		   // bbar: pagingToolbar,
+		    
 		    columns: [
 		              { text: '#', dataIndex: 'id', width: 35 },
-		              { text: 'Nombre', dataIndex: 'name', width: 210},
-		              {text: 'Identificacion', dataIndex: 'identification',width: 210},
-		              {text: 'Telefono 1', dataIndex: 'phonePrimary',width: 210},
-		              {text: 'Observaciones', dataIndex:'observations',width: 210},
+		              { text: '<center>Nombre</center>', dataIndex: 'name', width: 210},
+		              {text: '<center>Identificacion</center>', dataIndex: 'identification',width: 210},
+		              {text: '<center>Telefono 1</center>', dataIndex: 'phonePrimary',width: 210},
+		              {text: '<center>Observaciones</center>', dataIndex:'observations',width: 210},
 		              {
-			              	text: 'Acciones',
+			              	text: '<center>Acciones</center>',
 			              	width: 125,
 		            	    xtype: 'actioncolumn',
 		            	    items: [{
@@ -73,27 +55,36 @@
 		            	            tooltip: 'Edit',
 		            	            handler: function(grid, rowIndex, colIndex, a, b, c) {
 		            	            	var rec = grid.getStore().getAt(rowIndex);
-		            	            	var control = "$this->url(array('controller'=>'index','action'=>'edit','id'=>";
 		            	            	var id = rec.get('id');
-		            	            	var cierre = "))"; 
-		            	            	<?php $id =33; ?>
-		                                	//return '<a href="' + rec.get('id')'"></a>'get('name');
-		            	            	location.href = "<?php echo $this->url(array('controller'=>'index','action'=>'edit','id'=>$id)) ?>";
+		            	            	location.href = "index/edit/id/" + id;
 		            	            	}
 		            	    		},
 		            	    		{
 			            	    		icon: '<?php echo $this->baseUrl('image/delete.png');?>', // Use a URL in the icon config
 			            	            tooltip: 'Delete',
 			            	            handler: function(grid, rowIndex, colIndex, a, b, c) {
-
+			            	            	var rec = grid.getStore().getAt(rowIndex);
+			            	            	var id = rec.get('id');
+			            	            	location.href = "index/delete/id/" + id;
 			            	            	}
 			            	    		},
 
 		            	    ]
 		            	}
 		          ],
+		    
 			width: 1010,
-			style: 'margin:0 auto;margin-top:15px;',
+			dockedItems: [{
+		           xtype: 'pagingtoolbar',
+		           store: store,   // same store GridPanel is using
+		          
+		           dock: 'bottom',
+		           displayInfo: true,
+		           displayMsg: 'Contactos {0} - {1} de {2}',
+		           emptyMsg: "No se encontraron contactos",
+		           
+		       }],
+			style: 'margin:0 auto;margin-top:15px;margin-bottom:15px;',
 		    enableColLock:false,
 		    //selModel: new Ext.grid.RowSelectionModel({singleSelect:false}),
 		    renderTo: Ext.getBody()
@@ -104,5 +95,6 @@
 	//alert(store);
 	</script>
 
+	
 
 <?php //$phpNative = $this->response;?>
