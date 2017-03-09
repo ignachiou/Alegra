@@ -64,9 +64,35 @@
 		              {text: 'Identificacion', dataIndex: 'identification',width: 210},
 		              {text: 'Telefono 1', dataIndex: 'phonePrimary',width: 210},
 		              {text: 'Observaciones', dataIndex:'observations',width: 210},
-		              {text: 'Acciones',width: 210}
+		              {
+			              	text: 'Acciones',
+			              	width: 125,
+		            	    xtype: 'actioncolumn',
+		            	    items: [{
+		            	    		icon: '<?php echo $this->baseUrl('image/page_edit.png');?>', // Use a URL in the icon config
+		            	            tooltip: 'Edit',
+		            	            handler: function(grid, rowIndex, colIndex, a, b, c) {
+		            	            	var rec = grid.getStore().getAt(rowIndex);
+		            	            	var control = "$this->url(array('controller'=>'index','action'=>'edit','id'=>";
+		            	            	var id = rec.get('id');
+		            	            	var cierre = "))"; 
+		            	            	<?php $id =33; ?>
+		                                	//return '<a href="' + rec.get('id')'"></a>'get('name');
+		            	            	location.href = "<?php echo $this->url(array('controller'=>'index','action'=>'edit','id'=>$id)) ?>";
+		            	            	}
+		            	    		},
+		            	    		{
+			            	    		icon: '<?php echo $this->baseUrl('image/delete.png');?>', // Use a URL in the icon config
+			            	            tooltip: 'Delete',
+			            	            handler: function(grid, rowIndex, colIndex, a, b, c) {
+
+			            	            	}
+			            	    		},
+
+		            	    ]
+		            	}
 		          ],
-			width: 1100,
+			width: 1010,
 			style: 'margin:0 auto;margin-top:15px;',
 		    enableColLock:false,
 		    //selModel: new Ext.grid.RowSelectionModel({singleSelect:false}),
@@ -77,10 +103,6 @@
 		
 	//alert(store);
 	</script>
-	
-	
-	
 
 
-
-<?php $phpNative = $this->response;?>
+<?php //$phpNative = $this->response;?>
