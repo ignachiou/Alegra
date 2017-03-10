@@ -12,8 +12,8 @@ class IndexController extends Zend_Controller_Action
     {
         // action body//$client = new Zend_Rest_Client('https://app.alegra.com/api/v1/contacts/');
             	
-    	/*$client = new Zend_Http_Client('https://app.alegra.com/api/v1/contacts/');
-    	$client->setAuth('salvador.ignacio.salvatierra@gmail.com', 'c057687f5260aac9c56c');
+    	$client = new Zend_Http_Client('https://app.alegra.com/api/v1/contacts/');
+    	$client->setAuth('xxxxxxx', 'xxxxxxxx');
     	 
     	//se solicita un request con los parametros que se estan pasando en client
     	$a = $client->request('GET');
@@ -23,7 +23,7 @@ class IndexController extends Zend_Controller_Action
     	$phpNative = Zend_Json::decode($json_alegra); //$phpNative = json_decode($json_alegra, true);
     	 
     	//se envia a la vista
-    	$this->view->response = $phpNative;*/
+    	$this->view->response = $phpNative;
     }
 
     public function showformAction()
@@ -82,7 +82,7 @@ class IndexController extends Zend_Controller_Action
     			);
     			$json_alegra = Zend_Json::encode($data);
     			$client = new Zend_Http_Client('https://app.alegra.com/api/v1/contacts/'); 
-    			$client->setAuth('salvador.ignacio.salvatierra@gmail.com', 'c057687f5260aac9c56c');
+    			$client->setAuth('xxxxxxx', 'xxxxxxx');
     			//Se le dice al header que es una app/json y se le pasa el parametro
     			$client->setRawData($json_alegra, 'application/json');
     			$client->request('POST'); 
@@ -98,7 +98,7 @@ class IndexController extends Zend_Controller_Action
         // action body
         $id = $this->getRequest()->getParam('id');        
         $client = new Zend_Http_Client('https://app.alegra.com/api/v1/contacts/'.$id);
-        $client->setAuth('salvador.ignacio.salvatierra@gmail.com', 'c057687f5260aac9c56c');
+        $client->setAuth('xxxxxxx', 'xxxxxx');
          
         //se solicita un request con los parametros que se estan pasando en client
         $a = $client->request('GET');
@@ -190,7 +190,7 @@ class IndexController extends Zend_Controller_Action
     						'address'=>$address,
     						'city'=>$city,
     					),
-        			'term'=>$term,
+        			//'term'=>$term,
     				'observations'=>$observations,    				
     				//'seller'=>$seller,    					
     					
@@ -200,7 +200,7 @@ class IndexController extends Zend_Controller_Action
         	);
         	$json_alegra = Zend_Json::encode($data);
         	$client = new Zend_Http_Client('https://app.alegra.com/api/v1/contacts/'.$id);
-        	$client->setAuth('salvador.ignacio.salvatierra@gmail.com', 'c057687f5260aac9c56c');
+        	$client->setAuth('xxxxxxxxx', 'xxxxxx');
         	$client->setRawData($json_alegra, 'application/json');
         	$client->request('PUT');
         	//$this->view->response = $json_alegra; 
@@ -215,7 +215,7 @@ class IndexController extends Zend_Controller_Action
         
     	$id = $this->getRequest()->getParam('id');
     	$client = new Zend_Http_Client('https://app.alegra.com/api/v1/contacts/'.$id);
-    	$client->setAuth('salvador.ignacio.salvatierra@gmail.com', 'c057687f5260aac9c56c');
+    	$client->setAuth('xxxxx', 'xxxxxxxx');
     	$client->request('DELETE'); 
     	       
         return $this->_helper->redirector('index');

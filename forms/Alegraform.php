@@ -8,7 +8,14 @@ class Application_Form_Alegraform extends Zend_Form
         /* Form Elements & Other Definitions Here ... */
     	$this->setMethod('post');
     	//la etiqueda ese "nombre contacto" y se pasa la variable "name"
-    	$t_contacto = new Zend_Form_Element_Text('name',array('required'=>true,'label'=>'Nombre contacto:'));
+    	$t_contacto = new Zend_Form_Element_Text('name',
+    			array(
+    					'required'=>true,
+    					'label'=>'Nombre contacto:'    					
+    			));
+    	
+    	
+    	
     	$t_identification = new Zend_Form_Element_Text('identification',array('label'=>'Identificacion:'));
     	$t_phonePrimary = new Zend_Form_Element_Text('phonePrimary',array('label'=>'Telefono 1:'));
     	$t_phoneSecondary = new Zend_Form_Element_Text('phoneSecondary',array('label'=>'Telefono 2:'));
@@ -75,12 +82,51 @@ class Application_Form_Alegraform extends Zend_Form
     	$this->addElement($t_phoneSecondary);
     	$this->addElement($t_fax);
     	$this->addElement($t_mobile);
+    	
+    	$this->getElement('name')->addDecorator('HtmlTag', array('class'=>'row','openOnly'=>true));
+    	$this->getElement('mobile')->addDecorator('HtmlTag', array('closeOnly'=>true));
+    	$this->setElementDecorators(
+    				array(
+    					"ViewHelper",
+    					array("HtmlTag", array("tag" => "td")),
+                		array("Label" , array("tag" => "td")),
+                		array(array("tr" => "HtmlTag"), array("tag" => "tr"))
+    					)
+    				);
+    	$this->setDecorators(
+    			array(
+    					"FormElements",
+    						array("HtmlTag", array("tag" => "table")),
+    						"Form"
+    					)
+    			);
+    	
+    	
+    	
     	$this->addElement($t_email);
     	$this->addElement($t_priceList);
     	$this->addElement($t_seller);    	    	
     	$this->addElement($t_term);
 		$this->addElement($type);
     	$this->addElement($t_observations);
+    	$this->getElement('email')->addDecorator('HtmlTag', array('class'=>'row','openOnly'=>true));
+    	$this->getElement('observations')->addDecorator('HtmlTag', array('closeOnly'=>true));
+    	$this->setElementDecorators(
+    			array(
+    					"ViewHelper",
+    					array("HtmlTag", array("tag" => "td")),
+    					array("Label" , array("tag" => "td")),
+    					array(array("tr" => "HtmlTag"), array("tag" => "tr"))
+    			)
+    	);
+    	$this->setDecorators(
+    			array(
+    					"FormElements",
+    					array("HtmlTag", array("tag" => "table"),"Error"),
+    					"Form"
+    			)
+    	);
+    	
     	
     	$this->addElement($a_contacto);
     	$this->addElement($a_lastName);
@@ -91,6 +137,12 @@ class Application_Form_Alegraform extends Zend_Form
     	
     	$submit_contacto = new Zend_Form_Element_Submit('contacto_submit',array('label'=>'Guarda contacto'));
     	$this->addElement($submit_contacto);
+    	
+    	$this->setElementDecorators(array('Label', 'ViewHelper', 'HtmlTag'));
+    	
+    	// nos falta el div que los envuelve...
+    	$this->getElement('a_name')->addDecorator('HtmlTag', array('class' => 'row', 'openOnly' => true));
+    	$this->getElement('contacto_submit')->addDecorator('HtmlTag', array('closeOnly' => false));
     }
 
 
