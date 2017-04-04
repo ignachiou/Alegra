@@ -5,13 +5,343 @@
 			</div>
 	</div>	
 
-<?php  
-//$data = $this->response;
-//cho var_dump($data);
-	echo $this->form;
+<?php  $data = $this->response;
+//echo var_dump($data);
+	//echo $this->form;
 	//$a = $this->response;
 	//$b = strstr($a, '{');
 	//$json_alegra = substr($b,0, -5);
 	//$phpNative = Zend_Json::decode($json_alegra);
 	//echo $phpNative['name'];
 ?>
+
+<script>
+
+
+Ext.define('Address',{
+	extend: 'Ext.data.Model',
+	fields:['address','city']
+	});
+
+Ext.define('PriceList',{
+	extend: 'Ext.data.Model',
+	fields:['id','name']
+	});
+
+Ext.define('Term',{
+	extend: 'Ext.data.Model',
+	fields:['id','name'],
+	});
+
+Ext.define('Type',{
+	extend: 'Ext.data.Model',
+	});
+
+
+
+
+Ext.define('contactosModel',{
+	extend: 'Ext.data.Model',
+	fields: [
+	     	{name:'name', type:'string'},
+	     	{name:'identification', type:'string'},
+	        {name:'addresss', mapping: 'address.address'},
+	     	{name:'city', mapping: 'address.city'},
+	     	{name:'phonePrimary', type:'string'},
+	     	{name:'observations', type:'string'},
+	     	{name:'priceList', mapping:'priceList.id'},
+	     	{name:'term', mapping:'term.id'},
+	     	//{name:'type',mapping:'type.client'}
+	     	],
+	     	hasMany:[
+	     	     	{model:'Address', name: 'address'},
+	     	     	{model:'Term', name:'term'},
+	     	     	{model:'PriceList', name:'priceList'},
+	     	     	//{model:'Type',name:'type'}	     	     	
+	     	     	]
+	});	
+
+
+var getUrl = location.href;
+var finall = getUrl.substr(getUrl.lastIndexOf('/') + 1);
+var id = finall;
+
+var store = Ext.create('Ext.data.Store', {
+	model: 'contactosModel',
+	autoLoad: true,
+	proxy: {		
+		type: 'rest',
+		url:  'https://app.alegra.com/api/v1/contacts/' + id ,
+		method: 'GET',
+		pageParam: false, //to remove param "page"
+	    startParam: false, //to remove param "start"
+	    limitParam: false, //to remove param "limit"
+	    noCache: false, 
+		reader: {
+			type: 'json',
+			//rootProperty: 'data',
+			},
+		headers: {
+			Accept : 'application/json',
+			Authorization: 'Basic aWduYWNpb19zYWx2YXRpZXJyYUBob3RtYWlsLmNvbTo0ZTk3NDkyNGMyYTBjM2Y1NDVjMA=='
+				}				
+		}
+	});
+
+	var precios = Ext.create('Ext.data.Store', {
+	    fields: ['id', 'name'],
+	    model: 'PriceList',
+	    idProperty: 'id',
+	    data : [
+	        {"id":"0", "name":"Ninguna"},
+	        {"id":"1", "name":"General"},
+	    ]
+	});
+
+	var vendedor = Ext.create('Ext.data.Store', {
+	    fields: ['id', 'name'],
+	    data : [
+	        {"id":"0" , "name":"Ninguna"},
+	    ]
+	});
+
+	var termino = Ext.create('Ext.data.Store', {
+	    fields: ['id', 'name'],
+	    data : [
+	        {"id":"0", "name":"Vencimiento Manual"},
+	        {"id":"1", "name":"De Contado"},
+	        {"id":"2", "name":"8 dias"},
+	        {"id":"3", "name":"15 dias"},
+	        {"id":"4", "name":"30 dias"},
+	        {"id":"5", "name":"60 dias"},
+	    ]
+	});
+		
+	Ext.create('Ext.form.Panel', {
+	    standardSubmit: true,
+	    bodyPadding: 5,
+	    width: 900,
+
+	    // The form will submit an AJAX request to this URL when submitted
+	    url: 'http://localhost/zender/public/index/update/id/' + id,
+
+	    // Fields will be arranged vertically, stretched to full width
+	    layout: 'column',
+	    defaults: {
+	        anchor: '100%'
+	    },
+	    layout: {
+	        type: 'vbox',
+	        align: 'center',
+	    },
+	    style: 'margin:0 auto;margin-top:40px;margin-bottom:15px;',
+
+	    // The fields
+	    //defaultType: 'textfield',
+	    items: [{
+	    	xtype: 'form',
+	    	border: false,
+		    items:[{			    
+		        fieldLabel: 'Nombre*',
+		        name: 'name',
+		        xtype: 'textfield',
+		        allowBlank: false,
+		        minLength: 3,
+		        minLengthText: 'Debe contener un minimo de tres caracteres',
+		        maxLength: 20,
+		        maxLengthText: 'Debe contener un maximo de veinte caracteres',
+		        vtype: 'alphanum',
+		        msgTarget : 'side',
+		        blankText: 'Debes colocar el nombre',
+		        
+		    },{
+		        fieldLabel: 'identificacion',
+		        name: 'identification',
+		        maskRe: /([0-9a-zA-Z])/,
+		        allowBlank: true,
+		        xtype: 'textfield',
+		        vtype: 'alphanum',
+		        msgTarget : 'side',
+		        minLength: 4,
+		        minLengthText: 'Debe contener un minimo de cuatro caracteres',
+		        maxLength: 10,
+		        maxLengthText: 'Debe contener un maximo de diez caracteres',
+		    },{
+		        fieldLabel: 'Direccion',
+		        name: 'addresss',
+		        maskRe: /([0-9a-zA-Z\s])/,
+		        allowBlank: true,
+		        xtype: 'textfield',
+		        msgTarget : 'side',
+		        minLength: 4,
+		        minLengthText: 'Debe contener un minimo de cuatro caracteres',
+		        maxLength: 20,
+		        maxLengthText: 'Debe contener un maximo de veinte caracteres',
+		    },{
+		        fieldLabel: 'Ciudad',
+		        name: 'city',
+		        maskRe: /([a-zA-Z\s])/,
+		        allowBlank: true,
+		        xtype: 'textfield',
+		        msgTarget : 'side',
+		        minLength: 4,
+		        minLengthText: 'Debe contener un minimo de cuatro caracteres',
+		        maxLength: 20,
+		        maxLengthText: 'Debe contener un maximo de veinte caracteres',
+		    },{
+		        fieldLabel: 'Correo Electronico',
+		        name: 'email',
+		        xtype: 'textfield',
+		        allowBlank: true,
+		        width: 400,
+		        msgTarget : 'side',
+		        vtype: 'email'
+		    },{
+		        fieldLabel: 'Telefono 1',
+		        name: 'phonePrimary',
+		        allowBlank: true,
+		        xtype: 'textfield',
+		        maskRe: /[0-9.]/,
+		        minLength: 7,
+		        msgTarget : 'side',
+		        minLengthText: 'Debe contener un minimo de 7 numeros',
+		        maxLength: 20,
+		        maxLengthText: 'Debe contener un maximo de veinte numeros',
+		    },{
+		        fieldLabel: 'Telefono 2',
+		        name: 'phoneSecondary',
+		        allowBlank: true,
+		        xtype: 'textfield',
+		        maskRe: /[0-9.]/,
+		        minLength: 7,
+		        msgTarget : 'side',
+		        minLengthText: 'Debe contener un minimo de 7 numeros',
+		        maxLength: 20,
+		        maxLengthText: 'Debe contener un maximo de veinte numeros',
+		    },{
+		        fieldLabel: 'Fax',
+		        name: 'fax',
+		        allowBlank: true,
+		        xtype: 'textfield',
+		        maskRe: /[0-9.]/,
+		        msgTarget : 'side',
+		        minLength: 7,
+		        minLengthText: 'Debe contener un minimo de 7 numeros',
+		        maxLength: 20,
+		        maxLengthText: 'Debe contener un maximo de veinte numeros',
+		    },{
+		        fieldLabel: 'Celular',
+		        name: 'mobile',
+		        allowBlank: true,
+		        xtype: 'textfield',
+		        msgTarget : 'side',
+		        maskRe: /[0-9.]/,
+		        minLength: 7,
+		        minLengthText: 'Debe contener un minimo de 7 numeros',
+		        maxLength: 20,
+		        maxLengthText: 'Debe contener un maximo de veinte numeros',
+		    },{
+		        xtype: 'checkboxgroup',
+		        // Arrange checkboxes into two columns, distributed vertically
+		        columns: 1,
+		        name: 'type[]',
+		        vertical: true,
+		        baseParams:{						
+					routine:'getInfo'
+				},
+		        items: [
+		            { boxLabel: 'Cliente', inputValue: 'client' },
+		            { boxLabel: 'Proveedor', inputValue: 'provider' },
+		        ],        
+		        
+		    },{
+				xtype: 'combobox',
+				fieldLabel: 'Lista de Precios',
+				name: 'priceList',
+				vertical: true,
+				store: precios,
+				value: '1',
+				displayField: 'name',
+				valueField: 'id',
+				/*listeners: {
+					afterrender: function (field) {
+									field.setValue(id);
+									}
+							}	*/	
+		   // },{
+				///xtype: 'combobox',
+				//fieldLabel: 'Vendedor',
+				//name: 'seller',
+				//vertical: true,
+				//store: vendedor,
+				//displayField: 'name',
+				//valueField: 'id',		
+		    },{
+				xtype: 'combobox',
+				fieldLabel: 'Termino de Pago',
+				name: 'term',
+				vertical: true,
+				value: '1',
+				store: termino,
+				displayField: 'name',
+				valueField: 'id',		
+		    },{
+		    	xtype: 'textareafield',
+		        fieldLabel: 'Observaciones',
+		        name: 'observations',
+		        maskRe: /([a-zA-Z\s])/,
+		        allowBlank: true,
+		        maskRe: /([0-9a-zA-Z\s])/,
+		        minLength: 7,
+		        minLengthText: 'Debe contener un minimo de siete caracteres',
+		        msgTarget : 'side',
+		        maxLength: 50,
+		        maxLengthText: 'Debe contener un maximo de cincuenta caracteres',
+		    }]
+	    }],
+
+	    // Reset and Submit buttons
+	    buttons: [{
+	        text: 'Borrar todo',
+	        handler: function() {
+	            this.up('form').getForm().reset();
+	        }
+	    }, {
+	        text: 'Actualizar',
+	        formBind: true, //only enabled once the form is valid
+	        disabled: true,
+	        handler: function() {
+	            var form = this.up('form').getForm();
+	            if (form.isValid()) {
+	                form.submit({
+	                    jsonData: Ext.JSON.encode(form.getValues()),
+	                    success: function(form, action) {
+	                       Ext.Msg.alert('Success', action.result.msg);
+	                    },
+	                    failure: function(form, action) {
+	                        Ext.Msg.alert('Failed', action.result.msg);
+	                    }
+	                });
+	            }
+	        }
+	    }],
+	    listeners: {
+        afterrender: function (component, eOpts) {
+            var myStore = Ext.getStore(store);
+            myStore.load({
+                callback: function (records, operation, success) {
+
+                    component.down('form').loadRecord(myStore.last());
+
+                    console.log(myStore.data);
+                }
+            });
+       	 }
+    	},
+	    renderTo: Ext.getBody()
+	});
+
+
+
+
+</script>

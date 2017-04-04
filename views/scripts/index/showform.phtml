@@ -1,4 +1,5 @@
 	
+	<br><br>
 	<div class="agregar" >
 			<div class="iconos"  >
 				<h2><span class="glyphicon glyphicon-plus"></span>Nuevo Contacto </h2>
@@ -6,8 +7,232 @@
 	</div>	
 
 
+<script>
+var precios = Ext.create('Ext.data.Store', {
+    fields: ['id', 'name'],
+    data : [
+        {"id":"0", "name":"Ninguna"},
+        {"id":"1", "name":"General"},
+    ]
+});
 
-<div id="view-content">
-	<?php  echo $this->form; ?>
-</div>
+var vendedor = Ext.create('Ext.data.Store', {
+    fields: ['id', 'name'],
+    data : [
+        {"id":"0" , "name":"Ninguna"},
+    ]
+});
 
+var termino = Ext.create('Ext.data.Store', {
+    fields: ['id', 'name'],
+    data : [
+        {"id":"0", "name":"Vencimiento Manual"},
+        {"id":"1", "name":"De Contado"},
+        {"id":"2", "name":"8 dias"},
+        {"id":"3", "name":"15 dias"},
+        {"id":"4", "name":"30 dias"},
+        {"id":"5", "name":"60 dias"},
+    ],
+    /*listeners: {
+        load: function(store){
+            var rec = { id: '', name: 'Vencimiento Manual' };
+            store.insert(0,rec);    
+        }
+    }*/
+});
+	
+Ext.create('Ext.form.Panel', {
+    standardSubmit: true,
+    bodyPadding: 5,
+    width: 900,
+
+    // The form will submit an AJAX request to this URL when submitted
+    url: 'createform',
+
+    // Fields will be arranged vertically, stretched to full width
+    layout: 'column',
+    defaults: {
+        anchor: '100%'
+    },
+    layout: {
+        type: 'vbox',
+        align: 'center',
+    },
+    style: 'margin:0 auto;margin-top:40px;margin-bottom:15px;',
+
+    // The fields
+    defaultType: 'textfield',
+    items: [{
+        fieldLabel: 'Nombre*',
+        name: 'name',        
+        allowBlank: false,
+        minLength: 3,
+        minLengthText: 'Debe contener un minimo de tres caracteres',
+        maxLength: 20,
+        maxLengthText: 'Debe contener un maximo de veinte caracteres',
+        vtype: 'alphanum',
+        msgTarget : 'side',
+        blankText: 'Debes colocar el nombre',
+        
+    },{
+        fieldLabel: 'identificacion',
+        name: 'identification',
+        maskRe: /([0-9a-zA-z])/,
+        allowBlank: true,
+        vtype: 'alphanum',
+        msgTarget : 'side',
+        minLength: 4,
+        minLengthText: 'Debe contener un minimo de cuatro caracteres',
+        maxLength: 10,
+        maxLengthText: 'Debe contener un maximo de diez caracteres',
+    },
+    {
+        fieldLabel: 'Direccion',
+        name: 'address',
+        maskRe: /([0-9a-zA-Z\s])/,
+        allowBlank: true,
+        msgTarget : 'side',
+        minLength: 4,
+        minLengthText: 'Debe contener un minimo de cuatro caracteres',
+        maxLength: 20,
+        maxLengthText: 'Debe contener un maximo de veinte caracteres',
+    },{
+        fieldLabel: 'Ciudad',
+        name: 'city',
+        maskRe: /([0-9a-zA-Z\s])/,
+        allowBlank: true,
+        msgTarget : 'side',
+        minLength: 4,
+        minLengthText: 'Debe contener un minimo de cuatro caracteres',
+        maxLength: 20,
+        maxLengthText: 'Debe contener un maximo de veinte caracteres',
+    },{
+        fieldLabel: 'Correo Electronico',
+        name: 'email',
+        allowBlank: true,
+        msgTarget : 'side',
+        vtype: 'email',
+        maxLength: 20,
+        maxLengthText: 'Debe contener un maximo de veinte caracteres',
+    },{
+        fieldLabel: 'Telefono 1',
+        name: 'phonePrimary',
+        allowBlank: true,
+        maskRe: /[0-9.]/,
+        minLength: 7,
+        msgTarget : 'side',
+        minLengthText: 'Debe contener un minimo de 7 numeros',
+        maxLength: 20,
+        maxLengthText: 'Debe contener un maximo de veinte numeros',
+    },{
+        fieldLabel: 'Telefono 2',
+        name: 'phoneSecondary',
+        allowBlank: true,
+        maskRe: /[0-9.]/,
+        minLength: 7,
+        msgTarget : 'side',
+        minLengthText: 'Debe contener un minimo de 7 numeros',
+        maxLength: 20,
+        maxLengthText: 'Debe contener un maximo de veinte numeros',
+    },{
+        fieldLabel: 'Fax',
+        name: 'fax',
+        allowBlank: true,
+        maskRe: /[0-9.]/,
+        msgTarget : 'side',
+        minLength: 7,
+        minLengthText: 'Debe contener un minimo de 7 numeros',
+        maxLength: 20,
+        maxLengthText: 'Debe contener un maximo de veinte numeros',
+    },{
+        fieldLabel: 'Celular',
+        name: 'mobile',
+        allowBlank: true,
+        msgTarget : 'side',
+        maskRe: /[0-9.]/,
+        minLength: 7,
+        minLengthText: 'Debe contener un minimo de 7 numeros',
+        maxLength: 20,
+        maxLengthText: 'Debe contener un maximo de veinte numeros',
+    },{
+        xtype: 'checkboxgroup',
+        // Arrange checkboxes into two columns, distributed vertically
+        columns: 1,
+        name: 'type[]',
+        vertical: true,
+        items: [
+            { boxLabel: 'Cliente', inputValue: 'client' },
+            { boxLabel: 'Proveedor', inputValue: 'provider' },
+        ],        
+        
+    },{
+		xtype: 'combobox',
+		fieldLabel: 'Lista de Precios',
+		name: 'priceList',
+		vertical: true,
+        //emptyText  : 'Seleccionar',
+		store: precios,
+		displayField: 'name',
+		valueField: 'id',		
+   // },{
+		///xtype: 'combobox',
+		//fieldLabel: 'Vendedor',
+		//name: 'seller',
+		//vertical: true,
+		//store: vendedor,
+		//displayField: 'name',
+		//valueField: 'id',		
+    },{
+		xtype: 'combobox',
+		fieldLabel: 'Termino de Pago',
+		name: 'term',
+
+        emptyText  : 'Seleccionar',
+		vertical: true,
+		value: '1',
+		store: termino,
+		displayField: 'name',
+		valueField: 'id',		
+    },{
+        xtype: 'textareafield',
+        fieldLabel: 'Observaciones',
+        name: 'observations',
+        allowBlank: true,
+        maskRe: /([0-9a-zA-Z\s])/,
+        minLength: 7,
+        minLegthText: 'Debe contener un minimo de siete caracteres',
+        msgTarget : 'side',
+        maxLength: 50,
+        maxLengthText: 'Debe contener un maximo de cincuenta caracteres',
+    },
+
+    ],
+
+    // Reset and Submit buttons
+    buttons: [{
+        text: 'Borrar todo',
+        handler: function() {
+            this.up('form').getForm().reset();
+        }
+    }, {
+        text: 'Guardar',
+        formBind: true, //only enabled once the form is valid
+        disabled: true,
+        handler: function() {
+            var form = this.up('form').getForm();
+            if (form.isValid()) {
+                form.submit({
+                    jsonData: Ext.JSON.encode(form.getValues()),
+                    success: function(form, action) {
+                       Ext.Msg.alert('Success', action.result.msg);
+                    },
+                    failure: function(form, action) {
+                        Ext.Msg.alert('Failed', action.result.msg);
+                    }
+                });
+            }
+        }
+    }],
+    renderTo: Ext.getBody()
+});
+</script>

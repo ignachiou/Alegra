@@ -20,15 +20,19 @@
 				type: 'ajax',
 				url:  'https://app.alegra.com/api/v1/contacts/',
 				method: 'GET',
+				//pageParam: false, //to remove param "page"
+			    startParam: 0, //to remove param "start"
+			    limitParam: 25, //to remove param "limit"
+			    //noCache: false 
 				reader: {
 					type: 'json',
-					rootProperty: 'data',
+					//rootProperty: 'data',
 					id: 'id',
 					totalProperty: 'total',
 					},
 				headers: {
 					Accept : 'application/json',
-					Authorization: 'Basic xxxxxxxxxx'
+					Authorization: 'Basic aWduYWNpb19zYWx2YXRpZXJyYUBob3RtYWlsLmNvbTo0ZTk3NDkyNGMyYTBjM2Y1NDVjMA=='
 						}				
 				}
 			});
