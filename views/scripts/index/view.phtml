@@ -1,0 +1,76 @@
+		
+	<?php 
+	
+	$data= $this->response;
+		//echo var_dump($data);
+		?>
+<div id="infoWrapper">	
+	<div class="section-wrapper">
+		<div class="header">
+			<div class="title">
+				<h1><?php echo $data['name'];?></h1>
+			</div>
+			<div class="actions">
+				<a class="btn btn-primary" role="button" href="<?php echo $this->baseUrl('index/edit/id/'.$data['id']);?>" >Editar</a>		
+				
+			</div>
+		</div>
+	
+	</div>
+	<br><br>
+	
+	<div id="viewInformation" >
+		<table class="table table-sm" width="200">
+			<tbody>
+				<tr class="title">
+					<th class="data-1">Datos Generales</th>
+					<th style="background-color: #F2F2F2;"></th>
+				</tr>
+				<tr>
+					<th>Nombre</th>
+					<th><?php echo $data['name'];?></th>				
+				</tr>
+				<tr>
+					<th>Identificacion</th>
+					<th><?php echo $data['identification'];?></th>
+				</tr>
+				<tr>
+					<th>Telefono</th>
+					<th><?php echo $data['phonePrimary'];?>
+				</tr>
+				<tr>
+					<th>Telefono 2</th>
+					<th><?php echo $data['phoneSecondary'];?></th>
+				</tr>
+				<tr>
+					<th>Celular</th>
+					<th><?php echo $data['mobile'];?>
+				</tr>
+				<tr>
+					<th>Direccion</th>
+					<th><?php echo $data['address']['address']?>
+				</tr>
+				<tr>
+					<th>Ciudad</th>
+					<th><?php echo $data['address']['city'];?>
+				</tr>
+				<tr>
+					<th>Correo Electronico</th>
+					<th><?php echo $data['email'];?>
+				</tr>
+				<tr>
+					<th>Lista de Precio</th>
+					<th><?php echo $data['priceList']['name'];?>
+				</tr>
+				<tr>
+					<th>Observaciones</th>
+					<th><?php echo $data['observations'];?></th>
+				</tr>
+			</tbody>	
+		</table>
+	
+	</div>
+</div>
+
+	
+	

@@ -14,19 +14,20 @@
 
 		var store = Ext.create('Ext.data.Store', {
 			model: 'Contactos',
-			pageSize: 25,
+			pageSize: 20,
 			autoLoad: true,
 			proxy: {
 				type: 'ajax',
 				url:  'https://app.alegra.com/api/v1/contacts/',
 				method: 'GET',
 				//pageParam: false, //to remove param "page"
-			    startParam: 0, //to remove param "start"
-			    limitParam: 25, //to remove param "limit"
+			    //startParam: 0, //to remove param "start"
+			    //limitParam: 25, //to remove param "limit"
 			    //noCache: false 
 				reader: {
 					type: 'json',
-					//rootProperty: 'data',
+					rootProperty: 'root',
+                    successProperty: 'success',
 					id: 'id',
 					totalProperty: 'total',
 					},
@@ -36,6 +37,8 @@
 						}				
 				}
 			});
+
+		
 		
 	
 
@@ -60,6 +63,7 @@
 		            	            handler: function(grid, rowIndex, colIndex, a, b, c) {
 		            	            	var rec = grid.getStore().getAt(rowIndex);
 		            	            	var id = rec.get('id');
+		            	            	location.href = "index/view/id/" + id;
 		            	            	}
 		            	    		},
 				            	    {
@@ -76,8 +80,28 @@
 			            	            tooltip: 'Delete',
 			            	            handler: function(grid, rowIndex, colIndex, a, b, c) {
 			            	            	var rec = grid.getStore().getAt(rowIndex);
-			            	            	var id = rec.get('id');
-			            	            	location.href = "index/delete/id/" + id;
+			            	            	var id = rec.get('id');			            	            	
+			            	            	Ext.Msg.show({
+			            	            	     title:'Eliminar usuario',
+			            	            	     msg: 'Estas seguro de querer eliminar este usuario?',
+			            	            	     buttons: Ext.Msg.YESNO,
+			            	            	     icon: Ext.Msg.QUESTION,
+			            	            	     buttonText: {
+				            	            	     yes: "Si", 
+				            	            	     no: "No",
+				            	            	     },
+			            	            	     fn: function(btnId) {
+					            	                    if (btnId == 'yes') {
+
+					            	                    	location.href = "index/delete/id/" + id;              
+
+					            	                    } else {
+					            	                        store.rejectChanges();
+					            	                    }
+					            	                },
+			            	            	});
+			            	            	
+			            	            	
 			            	            	}
 			            	    		},
 
@@ -86,18 +110,24 @@
 		          ],
 		    
 			width: 1010,
+			height: 345,
+			loadMask : false,
 			dockedItems: [{
 		           xtype: 'pagingtoolbar',
-		           store: store,   // same store GridPanel is using
-		          
+		           store: store,   // same store GridPanel is using		          
 		           dock: 'bottom',
 		           displayInfo: true,
+		           beforePageText: 'Pagina',
+		           afterPageText: 'de {0}',
 		           displayMsg: 'Contactos {0} - {1} de {2}',
 		           emptyMsg: "No se encontraron contactos",
 		           
 		       }],
 			style: 'margin:0 auto;margin-top:40px;margin-bottom:15px;',
 		    enableColLock:false,
+		    viewConfig: {
+		        loadingText: "Cargando..."
+		    },
 		    //selModel: new Ext.grid.RowSelectionModel({singleSelect:false}),
 		    renderTo: Ext.getBody()
 		});

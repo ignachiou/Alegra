@@ -116,6 +116,8 @@ var store = Ext.create('Ext.data.Store', {
 	        {"id":"5", "name":"60 dias"},
 	    ]
 	});
+	
+	
 		
 	Ext.create('Ext.form.Panel', {
 	    standardSubmit: true,
@@ -126,7 +128,10 @@ var store = Ext.create('Ext.data.Store', {
 	    url: 'http://localhost/zender/public/index/update/id/' + id,
 
 	    // Fields will be arranged vertically, stretched to full width
-	    layout: 'column',
+	    layout: {
+	        type: 'table',
+	        columns: 2
+	    },
 	    defaults: {
 	        anchor: '100%'
 	    },
@@ -140,9 +145,10 @@ var store = Ext.create('Ext.data.Store', {
 	    //defaultType: 'textfield',
 	    items: [{
 	    	xtype: 'form',
+	    	//layout: 'column',
 	    	border: false,
 		    items:[{			    
-		        fieldLabel: 'Nombre*',
+		        fieldLabel: 'Nombre <font color="red">*</font>',
 		        name: 'name',
 		        xtype: 'textfield',
 		        allowBlank: false,
@@ -242,16 +248,16 @@ var store = Ext.create('Ext.data.Store', {
 		        maxLengthText: 'Debe contener un maximo de veinte numeros',
 		    },{
 		        xtype: 'checkboxgroup',
-		        // Arrange checkboxes into two columns, distributed vertically
+		        // Arrange checkboxes into one columns, distributed vertically
+		        id: 'tipo',
 		        columns: 1,
-		        name: 'type[]',
 		        vertical: true,
 		        baseParams:{						
 					routine:'getInfo'
 				},
 		        items: [
-		            { boxLabel: 'Cliente', inputValue: 'client' },
-		            { boxLabel: 'Proveedor', inputValue: 'provider' },
+		            { boxLabel: 'Cliente', inputValue: 'client',name:'type' },
+		            { boxLabel: 'Proveedor', inputValue: 'provider',name:'type' },
 		        ],        
 		        
 		    },{
@@ -326,21 +332,24 @@ var store = Ext.create('Ext.data.Store', {
 	        }
 	    }],
 	    listeners: {
-        afterrender: function (component, eOpts) {
-            var myStore = Ext.getStore(store);
-            myStore.load({
-                callback: function (records, operation, success) {
-
-                    component.down('form').loadRecord(myStore.last());
-
-                    console.log(myStore.data);
-                }
-            });
-       	 }
+	        afterrender: function (component, eOpts) {
+	            var myStore = Ext.getStore(store);
+	            myStore.load({
+	                callback: function (records, operation, success) {
+	
+	                    component.down('form').loadRecord(myStore.last());
+	
+	                    console.log(myStore.data);
+	                    
+		               	 
+	                }
+	            });
+	       	 }
     	},
 	    renderTo: Ext.getBody()
 	});
 
+	
 
 
 

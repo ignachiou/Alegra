@@ -10,12 +10,12 @@ class IndexController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        
+    	$this->view->title = "Contactos";
     }
 
     public function showformAction()
     {
-        
+    	$this->view->title = "Crear Contacto";
     }
 
     public function createformAction()
@@ -53,7 +53,7 @@ class IndexController extends Zend_Controller_Action
     public function editAction()
     {
     	
-        
+    	$this->view->title = "Editar Contacto";
     
     }
 
@@ -85,7 +85,7 @@ class IndexController extends Zend_Controller_Action
         		//Se le dice al header que es una app/json y se le pasa el parametro
         		$client->setRawData($json_alegra, 'application/json');
         		$client->request('PUT');
-        		//$this->view->response = $json_alegra;
+        		//$this->view->response = $data;
         	}
         }
         $this->_helper->redirector('index');
@@ -105,5 +105,28 @@ class IndexController extends Zend_Controller_Action
         
     }
 
+    public function viewAction()
+    {
+        // action body
+        
+    	$id = $this->getRequest()->getParam('id');
+    	$client = new Zend_Http_Client('https://app.alegra.com/api/v1/contacts/'.$id);
+    	$client->setAuth('ignacio_salvatierra@hotmail.com', '4e974924c2a0c3f545c0');
+    	//se solicita un request con los parametros que se estan pasando en client
+    	$a = $client->request('GET');
+    	$b = strstr($a, '{"id');
+    	$json_alegra = substr($b,0, -5);
+    	//Se pasa pasa de json a array
+    	$phpNative = Zend_Json::decode($json_alegra); //$phpNative = json_decode($json_alegra, true);
+    	$name = $phpNative['name'];
+    	
+    	//se envia a la vista
+    	$this->view->response = $phpNative;
+    	$this->view->title = $name;
+    	
+    }
+
 
 }
+
+
