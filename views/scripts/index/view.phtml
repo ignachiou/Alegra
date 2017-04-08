@@ -5,14 +5,17 @@
 		//echo var_dump($data);
 		?>
 <div id="infoWrapper">	
+	<div class="agregar" >
+			<div class="iconos"  >
+				<h2><span class="glyphicon glyphicon-user"></span> Datos generales de <?php echo $data['name'];?> </h2>
+			</div>
+	</div>	
 	<div class="section-wrapper">
 		<div class="header">
-			<div class="title">
-				<h1><?php echo $data['name'];?></h1>
-			</div>
 			<div class="actions">
+				<br>
 				<a class="btn btn-primary" role="button" href="<?php echo $this->baseUrl('index/edit/id/'.$data['id']);?>" >Editar</a>		
-				
+				<a class="btn btn-danger" role="button" href="<?php echo $this->baseUrl('index/delete/id/'.$data['id']);?>" >Eliminar</a>	
 			</div>
 		</div>
 	
