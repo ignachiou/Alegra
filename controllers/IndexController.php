@@ -10,7 +10,7 @@ class IndexController extends Zend_Controller_Action
 
     public function indexAction()
     {
-    	$this->view->title = "alegra";
+    	$this->view->title = "Alegra";
     }
     
     public function showcontactAction()
