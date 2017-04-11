@@ -12,7 +12,7 @@ class IndexController extends Zend_Controller_Action
     {
     	$this->view->title = "Alegra";
     }
-    
+
     public function showcontactAction()
     {
     	// action body
@@ -132,10 +132,15 @@ class IndexController extends Zend_Controller_Action
     	
     }
 
-    
+    public function infoAction()
+    {
+        $this->view->title = "Nosotros Alegra";
+    }
 
 
 }
+
+
 
 
 

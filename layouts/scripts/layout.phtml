@@ -15,17 +15,14 @@
 </head>
 <body>
 	<header>
-		<div class="logo">
-			<h1><img alt="Brand" src="<?php echo $this->baseUrl('image/alegra1.png');?>" width="60" height="60"><FONT FACE="times new roman">Alegra</FONT></h1>
-		</div>
-		<nav class="navbar navbar-default">
+		<nav class="navbar navbar-default navbar-static-top" role="navigation">
   			<div class="container-fluid">
   				<div class="navbar-header">
-			      <a class="navbar-brand" href="<?php echo $this->baseUrl('index');?>">Alegra</a>
+					<img alt="Brand" align="left" src="<?php echo $this->baseUrl('image/alegra2.png');?>" width="70" height="60"><a class="navbar-brand" href="<?php echo $this->baseUrl('index');?>">Alegra</a>
 			    </div>
-    			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    			<div class="collapse navbar-collapse" id="navbar-collapse-1">
 			      <ul class="nav navbar-nav">
-			        <li class="active"><a href="<?php echo $this->baseUrl('index');?>">Inicio <span class="sr-only">(current)</span></a></li>
+			        <li class="active"><a href="<?php echo $this->baseUrl('index');?>">Inicio</a></li>
 			        <li><a href="#">Ingresos</a></li>
 			        <li><a href="#">Gastos</a></li>
 			        <li class="dropdown">
@@ -34,13 +31,12 @@
 			            <li><a href="<?php echo $this->baseUrl('index/showcontact');?>">Lista de contactos</a></li>
 			            <li role="separator" class="divider"></li>
 			            <li><a href="<?php echo $this->url(array('controller'=>'index','action'=>'showform'),'show') ?>">Agregar nuevo contacto</a></li>
-			            <li role="separator" class="divider"></li>
-			            <li><a href="#">Extra</a></li>
+			            
 			          </ul>
 			        </li>
 			        <li><a href="#">Inventario</a></li>
 			        <li><a href="#">Bancos</a></li>
-			        <li><a href="#">Nosotros</a></li>
+			        <li><a href="<?php echo $this->baseUrl('index/info');?>">Nosotros</a></li>
 			      </ul> 
     			</div>    			
   			</div>
