@@ -137,8 +137,22 @@ class IndexController extends Zend_Controller_Action
         $this->view->title = "Nosotros Alegra";
     }
 
+    public function facturaAction()
+    {
+        $this->view->title = "Info facturas";
+    }
+
+    public function bancoAction()
+    {
+        $this->view->title = "Info crear banco";
+    }
+
 
 }
+
+
+
+
 
 
 
