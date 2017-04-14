@@ -53,7 +53,7 @@ class IndexController extends Zend_Controller_Action
     			//$this->view->response = $json_alegra;  		
     		}
     	}
-    	$this->_helper->redirector('index');
+    	$this->_helper->redirector('showcontact');
     }
 
     public function editAction()
@@ -94,7 +94,7 @@ class IndexController extends Zend_Controller_Action
         		//$this->view->response = $data;
         	}
         }
-        $this->_helper->redirector('index');
+        $this->_helper->redirector('showcontact');
         
     }
 
@@ -107,7 +107,7 @@ class IndexController extends Zend_Controller_Action
     	$client->setAuth('ignacio_salvatierra@hotmail.com', '4e974924c2a0c3f545c0');
     	$client->request('DELETE'); 
     	       
-        return $this->_helper->redirector('index');
+        return $this->_helper->redirector('showcontact');
         
     }
 
@@ -147,8 +147,22 @@ class IndexController extends Zend_Controller_Action
         $this->view->title = "Info crear banco";
     }
 
+    public function importarAction()
+    {
+        $this->view->title = "Importar contectos";
+    }
+
+    public function remodelacionAction()
+    {
+        $this->view->title = "En construccion";
+    }
+
 
 }
+
+
+
+
 
 
 

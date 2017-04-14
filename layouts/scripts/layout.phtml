@@ -1,19 +1,21 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+
 <link rel='stylesheet' type='text/css' href=<?php echo $this->baseUrl('css/mycss.css'); ?> />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/extjs/6.0.0/classic/theme-classic/resources/theme-classic-all.css" rel="stylesheet" />
 <link rel="icon" href="<?php echo $this->baseUrl('image/alegra_ico.ico'); ?>"/>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/extjs/6.0.0/ext-all.js"></script>
   
 <title><?php echo $this->title;?></title>
 
-
 </head>
+
 <body>
 	<header>
 		<nav class="navbar navbar-default navbar-static-top" role="navigation">
@@ -22,21 +24,28 @@
 					<img alt="Brand" align="left" src="<?php echo $this->baseUrl('image/alegra2.png');?>" width="70" height="60"><a class="navbar-brand" href="<?php echo $this->baseUrl('index');?>">Alegra</a>
 			    </div>
     			<div class="collapse navbar-collapse" id="navbar-collapse-1">
-			      <ul class="nav navbar-nav">
-			        <li class="active"><a href="<?php echo $this->baseUrl('index');?>">Inicio</a></li>
-			        <li><a href="#">Ingresos</a></li>
-			        <li><a href="#">Gastos</a></li>
+			      <ul class="nav navbar-nav" id="myTab">
+			        <li>
+			        	<a href="<?php echo $this->baseUrl('index');?>">Inicio</a>
+			        </li>
+			        <li><a href="<?php echo $this->baseUrl('index/remodelacion');?>">Ingresos</a></li>
+			        <li><a href="<?php echo $this->baseUrl('index/remodelacion');?>">Gastos</a></li>
 			        <li class="dropdown">
 			          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Contactos <span class="caret"></span></a>
 			          <ul class="dropdown-menu">
 			            <li><a href="<?php echo $this->baseUrl('index/showcontact');?>">Lista de contactos</a></li>
 			            <li role="separator" class="divider"></li>
-			            <li><a href="<?php echo $this->url(array('controller'=>'index','action'=>'showform'),'show') ?>">Agregar nuevo contacto</a></li>
-			            
+			            <li><a href="<?php echo $this->url(array('controller'=>'index','action'=>'showform'),'show') ?>">Agregar nuevo contacto</a></li>			            
 			          </ul>
 			        </li>
-			        <li><a href="#">Inventario</a></li>
-			        <li><a href="#">Bancos</a></li>
+			        <li class="dropdown">
+			          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Como hacer<span class="caret"></span></a>
+			          <ul class="dropdown-menu">
+			            <li><a href="<?php echo $this->baseUrl('index/factura');?>">Como hacer una factura</a></li>
+			            <li role="separator" class="divider"></li>
+			            <li><a href="<?php echo $this->baseUrl('index/banco');?>">Comohacer una cuenta banco</a></li>			            
+			          </ul>
+			        </li>
 			        <li><a href="<?php echo $this->baseUrl('index/info');?>">Nosotros</a></li>
 			      </ul> 
     			</div>    			
@@ -55,20 +64,21 @@
 					<h4>Ayudas paso a paso</h4>
 					<lu class="enlace">
 						<li><a href="<?php echo $this->baseUrl('index/factura');?>">Como crear una factura de venta</a></li>
-						<li><a href="#">Como crear una factura de proveedor</a></li>
-						<li><a href="#">Como importar contactos</a></li>
 						<li><a href="<?php echo $this->baseUrl('index/banco');?>">Como registra una cuenta de banco</a></li>
+						<li><a href="<?php echo $this->baseUrl('index/remodelacion');?>">Como crear una factura de proveedor</a></li>
+						<li><a href="<?php echo $this->baseUrl('index/importar');?>">Como importar contactos</a></li>
+						
 						
 					</lu>
 			</div>
 			<div class='support'>
 				<h4>Soporte</h4>
 				<lu class="enlace2">
-					<li><a href="#">Conactanos</a></li>
-					<li><a href="#">Centro de ayuda</a></li>
+					<li><a href="<?php echo $this->baseUrl('index/remodelacion');?>">Conactanos</a></li>
+					<li><a href="<?php echo $this->baseUrl('index/remodelacion');?>">Centro de ayuda</a></li>
 					<li><a href="files/manual.pdf">Manual de primeros pasos de alegra</a></li>
-					<li><a href="#">Plan de referidos</a></li>
-					<li><a href="#">Comparte tu historia</a></li>
+					<li><a href="<?php echo $this->baseUrl('index/remodelacion');?>">Plan de referidos</a></li>
+					<li><a href="<?php echo $this->baseUrl('index/remodelacion');?>">Comparte tu historia</a></li>
 				</lu>
 			</div>
 			<div class='masAyuda'>
@@ -82,6 +92,16 @@
 			</div>
 		</div>
 	</footer>
-
+<script>
+$(document).ready(function () {
+    var url = window.location;
+    $('.nav li a').find('.active').removeClass('active');
+    $('.nav li a').each(function () {
+        if (this.href == url) {
+            $(this).parent().addClass('active');
+        }
+    }); 
+});
+</script>
 </body>
 </html>
