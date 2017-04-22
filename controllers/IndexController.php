@@ -10,7 +10,7 @@ class IndexController extends Zend_Controller_Action
 
     public function indexAction()
     {
-    	$this->view->title = "Alegra";
+    	$this->view->title = "Alegra. Software Contable y de Facturacion para Pymes";
     }
 
     public function showcontactAction()
@@ -149,7 +149,7 @@ class IndexController extends Zend_Controller_Action
 
     public function importarAction()
     {
-        $this->view->title = "Importar contectos";
+        $this->view->title = "Importar contactos";
     }
 
     public function remodelacionAction()
